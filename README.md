@@ -1,4 +1,4 @@
-# eventhub-svc-providers
+# eventhub-svc-services
 
 Este repositorio corresponde al microservicio de proveedores del proyecto de aplicacion movil Eventhub.
 
