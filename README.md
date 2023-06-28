@@ -1,6 +1,6 @@
 # eventhub-svc-services
 
-Este repositorio corresponde al microservicio de proveedores del proyecto de aplicacion movil Eventhub.
+Este repositorio corresponde al microservicio de servicios de proveedores del proyecto de aplicacion movil Eventhub.
 
 ## Eventhub
 Eventhub será una aplicación móvil orientada a la organización y planificación de eventos de diversos ámbitos, este proyecto está enfocado en permitir que usuarios y proveedores puedan tener una comunicación y conexión más cercana, permitiendo dar a conocer empresas, y facilitar el proceso de organización de un evento.
