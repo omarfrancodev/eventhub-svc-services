@@ -48,7 +48,7 @@ export class UpdateServiceController {
                     tags
                 };
 
-                const result = await this.updateServiceUseCase.run(serviceId, updatedService);
+                const result = await this.updateServiceUseCase.run(existingService, updatedService);
 
                 return res.status(200).json(result);
             } else {

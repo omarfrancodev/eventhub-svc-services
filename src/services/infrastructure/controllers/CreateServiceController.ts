@@ -21,12 +21,12 @@ export class CreateServiceController {
                 }
             }
 
-            if (Array.isArray(formData.tags)) {
+            if (formData !== undefined) {
                 tags = formData.tags.split('|');
             }
 
             const service = new Service();
-            service.providerId = formData.providerId;
+            service.providerId = parseInt(formData.providerId);
             service.name = formData.name;
             service.description = formData.description;
             service.tags = tags;
