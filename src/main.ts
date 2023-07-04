@@ -1,5 +1,4 @@
 import express from "express";
-import bodyParser from "body-parser";
 // import aws from "aws-sdk";
 
 import { serviceRouter } from "./services/infrastructure/ServiceRouter";
@@ -36,8 +35,8 @@ const app = express();
 //   });
 // });
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use("/services", serviceRouter);
 app.get("/images-services/:filename", (req, res) => {
   const filename = req.params.filename;
