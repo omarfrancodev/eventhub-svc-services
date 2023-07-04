@@ -1,8 +1,7 @@
 import express from "express";
-import bodyParser from "body-parser";
 // import aws from "aws-sdk";
 
-import { providerRouter } from "./providers/infrastructure/ProviderRouter";
+import { serviceRouter } from "./services/infrastructure/ServiceRouter";
 import path from "path";
 
 const app = express();
@@ -36,13 +35,12 @@ const app = express();
 //   });
 // });
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.static("uploads"));
-app.use("/providers", providerRouter);
-app.get("/images-providers/:filename", (req, res) => {
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use("/services", serviceRouter);
+app.get("/images-services/:filename", (req, res) => {
   const filename = req.params.filename;
-  const imagePath = path.join(__dirname, "images-providers", filename);
+  const imagePath = path.join(__dirname, "images-services", filename);
   res.sendFile(imagePath);
 });
 

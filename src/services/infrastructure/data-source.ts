@@ -1,5 +1,5 @@
 import { DataSource } from "typeorm";
-import { Provider } from "../domain/Provider";
+import { Service } from "../domain/Service";
 import dotenv from "dotenv";
 
 dotenv.config(); // Cargar variables de entorno desde el archivo .env
@@ -13,9 +13,9 @@ export const AppDataSource = new DataSource({
     database: process.env.DB_DATABASE,
     synchronize: true,
     logging: true,
-    entities: [Provider],
+    entities: [Service],
     subscribers: [],
-    migrations: [Provider],
+    migrations: [Service],
 });
 
 AppDataSource.initialize()
