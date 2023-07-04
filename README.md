@@ -30,10 +30,12 @@ npm run test
   npm run build
   ```
 
-- `start`: Inicia la aplicación en modo de producción ejecutando el archivo JavaScript compilado (`src/main.js`) utilizando `node` (Se ejecuta en build, una vez que esta es creada.
+- `start`: Inicia la aplicación en modo de producción ejecutando el archivo JavaScript compilado (`src/main.js`) utilizando `node` (Se ejecuta en build, una vez que esta es creada).
 ```bash
   npm run start
   ```
+## Carpetas
+Debe crearse una carpeta en la direccion `/src` con el nombre `images-providers`.
 
 ### Instalación
 
