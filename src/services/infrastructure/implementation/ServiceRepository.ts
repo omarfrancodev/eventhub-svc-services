@@ -10,8 +10,8 @@ export class ServiceRepository implements IServiceRepository {
         this.repository = AppDataSource.getRepository(Service);
     }
 
-    async create(service: Service): Promise<Service> {
-        return this.repository.save(service);
+    async create(services: Service[]): Promise<Service[]> {
+        return this.repository.save(services);
     }
 
     async update(service: Service): Promise<Service> {
