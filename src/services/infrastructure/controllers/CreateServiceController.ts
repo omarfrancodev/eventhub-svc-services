@@ -7,7 +7,7 @@ export class CreateServiceController {
 
     async run(req: Request, res: Response): Promise<Response> {
         try {
-            const formData = JSON.parse(req.body.services);
+            const formData = req.body.services;
             let images: Express.MulterS3.File[] = req.files as Express.MulterS3.File[];              
 
             const services: Service[] = [];
@@ -43,7 +43,7 @@ export class CreateServiceController {
         service.providerId = parseInt(serviceData.providerId);
         service.name = serviceData.name;
         service.description = serviceData.description;
-        service.tags =serviceData.tags;
+        service.tags = serviceData.tags;
         service.urlImages = urlImages;
 
         return service;
