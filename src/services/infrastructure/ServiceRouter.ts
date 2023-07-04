@@ -12,6 +12,7 @@ import {
   updateServiceController,
   findAllServiceController,
   findByIdServiceController,
+  findByProviderIdController,
 } from './dependencies';
 import path from 'path';
 
@@ -54,3 +55,4 @@ serviceRouter.patch('/:id', upload.array("images"), updateServiceController.run.
 // serviceRouter.patch('/:id', uploadS3.array("images"), updateServiceController.run.bind(updateServiceController));
 serviceRouter.get('/', findAllServiceController.run.bind(findAllServiceController));
 serviceRouter.get('/:id', findByIdServiceController.run.bind(findByIdServiceController));
+serviceRouter.get('/provider/:id', findByProviderIdController.run.bind(findByProviderIdController));

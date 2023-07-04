@@ -29,4 +29,11 @@ export class ServiceRepository implements IServiceRepository {
     async findAll(): Promise<Service[]> {
         return this.repository.find();
     }
+
+    async findByProviderId(providerId: number): Promise<Service[]> {
+        const services = await this.repository.find({
+            where: { providerId:  providerId },
+        });
+        return services;
+    }
 }
