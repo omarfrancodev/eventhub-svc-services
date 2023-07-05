@@ -4,7 +4,7 @@ import fs from 'fs';
     const currentDate = new Date();
     const formattedFullDate = currentDate.toLocaleString();
     const formattedDate = `${currentDate.getDate()}-${currentDate.getMonth() + 1}-${currentDate.getFullYear()}`;
-    const logFileName = `error-logs-${formattedDate}.txt`;
+    const logFileName = `error-logs-${formattedDate}.log`;
     const logFilePath = `src/logs/${logFileName}`;
     const logMessage = `${formattedFullDate}    ${error}    ${errorLine}\n`;
      if (!fs.existsSync(logFilePath)) {
