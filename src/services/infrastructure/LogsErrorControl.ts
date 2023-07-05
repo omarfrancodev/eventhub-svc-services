@@ -6,7 +6,7 @@ import fs from 'fs';
     const formattedDate = `${currentDate.getDate()}-${currentDate.getMonth() + 1}-${currentDate.getFullYear()}`;
     const logFileName = `error-logs-${formattedDate}.log`;
     const logFilePath = `src/logs/${logFileName}`;
-    const logMessage = `${formattedFullDate}    ${error}    ${errorLine}\n`;
+    const logMessage = `${formattedFullDate}    ${error}\n${errorLine}`;
      if (!fs.existsSync(logFilePath)) {
       fs.writeFileSync(logFilePath, logMessage);
     } else {

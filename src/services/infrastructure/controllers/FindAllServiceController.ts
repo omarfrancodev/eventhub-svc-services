@@ -14,13 +14,7 @@ export class FindAllServiceController {
             const stackLines = error.stack.split("\n");
             let errorLine = '';
             for (const line of stackLines) {
-                const fileAndLine = line.match(/\((.*):(\d+):\d+\)$/);
-                if (fileAndLine) {
-                    const file = fileAndLine[1];
-                    const lineNumber = fileAndLine[2];
-                    errorLine = `File: ${file}, Line: ${lineNumber}`;
-                    break;
-                }
+                errorLine += line + "\n";
             }
             saveErrorToLogFile(error, errorLine);
             return res.status(500).json({ error: 'Internal server error' });
