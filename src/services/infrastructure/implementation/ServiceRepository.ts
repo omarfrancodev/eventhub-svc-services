@@ -23,7 +23,7 @@ export class ServiceRepository implements IServiceRepository {
     }
 
     async findById(serviceId: number): Promise<Service | null> {
-        return this.repository.findOneBy({serviceId: serviceId})
+        return this.repository.findOneBy({ serviceId: serviceId })
     }
 
     async findAll(): Promise<Service[]> {
@@ -31,9 +31,6 @@ export class ServiceRepository implements IServiceRepository {
     }
 
     async findByProviderId(providerId: number): Promise<Service[]> {
-        const services = await this.repository.find({
-            where: { providerId:  providerId },
-        });
-        return services;
+        return await this.repository.findBy({ providerId: providerId });
     }
 }
