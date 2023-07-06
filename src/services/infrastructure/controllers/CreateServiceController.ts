@@ -2,16 +2,16 @@ import { Request, Response } from 'express';
 import { validationResult } from 'express-validator';
 import { Service } from '../../domain/Service';
 import { CreateServiceUseCase } from '../../application/CreateServiceUseCase';
-import saveErrorToLogFile from '../LogsErrorControl';
+import saveLogFile from '../LogsErrorControl';
 
 export class CreateServiceController {
     constructor(private readonly createServiceUseCase: CreateServiceUseCase) { }
     async run(req: Request, res: Response): Promise<Response> {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ error: 'Invalid input data' });
+        }
         try {
-            const errors = validationResult(req);
-            if (!errors.isEmpty()) {
-                return res.status(400).json({ error: 'Invalid input data' });
-            }
 
             const formData = req.body.services;
             let images: Express.MulterS3.File[] = req.files as Express.MulterS3.File[];
@@ -24,12 +24,7 @@ export class CreateServiceController {
             return res.status(201).json(createdService);
         } catch (error: any) {
             console.error(error);
-            const stackLines = error.stack.split("\n");
-            let errorLine = '';
-            for (const line of stackLines) {
-                errorLine += line + "\n";
-            }
-            saveErrorToLogFile(error, errorLine);
+            saveLogFile(error);
             return res.status(500).json({ error: 'Internal server error' });
         }
     }

@@ -1,5 +1,5 @@
 import fs from 'fs';
- function saveErrorToLogFile(error: unknown, errorLine: string) {
+function saveErrorToLogFile(error: unknown, errorLine: string) {
   try {
     const currentDate = new Date();
     const formattedFullDate = currentDate.toLocaleString();
@@ -7,7 +7,7 @@ import fs from 'fs';
     const logFileName = `error-logs-${formattedDate}.log`;
     const logFilePath = `src/logs/${logFileName}`;
     const logMessage = `${formattedFullDate}    ${error}\n${errorLine}`;
-     if (!fs.existsSync(logFilePath)) {
+    if (!fs.existsSync(logFilePath)) {
       fs.writeFileSync(logFilePath, logMessage);
     } else {
       fs.appendFileSync(logFilePath, logMessage);
@@ -16,4 +16,14 @@ import fs from 'fs';
     console.error('Error saving error to log file:', error);
   }
 }
- export default saveErrorToLogFile;
+
+function saveLogFile(error: any) {
+  const stackLines = error.stack.split("\n");
+  let errorLine = '';
+  for (const line of stackLines) {
+    errorLine += line + "\n";
+  }
+  saveErrorToLogFile(error, errorLine);
+}
+
+export default saveLogFile;

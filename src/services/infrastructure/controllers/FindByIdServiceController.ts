@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { FindByIdServiceUseCase } from '../../application/FindByIdServiceUseCase';
-import saveErrorToLogFile from '../LogsErrorControl';
+import saveLogFile from '../LogsErrorControl';
 
 export class FindByIdServiceController {
     constructor(private readonly findByIdServiceUseCase: FindByIdServiceUseCase) { }
@@ -18,12 +18,7 @@ export class FindByIdServiceController {
             return res.status(200).json(service);
         } catch (error: any) {
             console.error(error);
-            const stackLines = error.stack.split("\n");
-            let errorLine = '';
-            for (const line of stackLines) {
-                errorLine += line + "\n";
-            }
-            saveErrorToLogFile(error, errorLine);
+            saveLogFile(error);
             return res.status(500).json({ error: 'Internal server error' });
         }
     }

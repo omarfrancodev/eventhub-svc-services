@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import { UpdateServiceUseCase } from '../../application/UpdateServiceUseCase';
 import { FindByIdServiceUseCase } from '../../application/FindByIdServiceUseCase';
 import { Service } from '../../domain/Service';
-import saveErrorToLogFile from '../LogsErrorControl';
+import saveLogFile from '../LogsErrorControl';
 import * as fs from 'fs';
 
 export class UpdateServiceController {
@@ -19,7 +19,6 @@ export class UpdateServiceController {
             const updatedServiceData = req.body;
             const images: Express.MulterS3.File[] = req.files as Express.MulterS3.File[];
             let urlImages: string[] = [];
-
             let tags: string[] = [];
 
             const existingService = await this.findByIdServiceUseCase.run(serviceId);
@@ -52,15 +51,9 @@ export class UpdateServiceController {
             const result = await this.updateServiceUseCase.run(existingService, updatedService);
 
             return res.status(200).json(result);
-
         } catch (error: any) {
             console.error(error);
-            const stackLines = error.stack.split("\n");
-            let errorLine = '';
-            for (const line of stackLines) {
-                errorLine += line + "\n";
-            }
-            saveErrorToLogFile(error, errorLine);
+            saveLogFile(error);
             return res.status(500).json({ error: 'Internal server error' });
         }
     }
@@ -90,18 +83,7 @@ export class UpdateServiceController {
                 console.log(`Imagen ${image} eliminada correctamente`);
             } catch (err: any) {
                 console.error(`Error al eliminar la imagen ${image}: ${err}`);
-                const stackLines = err.stack.split("\n");
-                let errorLine = '';
-                for (const line of stackLines) {
-                    const fileAndLine = line.match(/\((.*):(\d+):\d+\)$/);
-                    if (fileAndLine) {
-                        const file = fileAndLine[1];
-                        const lineNumber = fileAndLine[2];
-                        errorLine = `File: ${file}, Line: ${lineNumber}`;
-                        break;
-                    }
-                }
-                saveErrorToLogFile(err, errorLine);
+                saveLogFile(err);
             }
         });
         await Promise.all(unlinkPromises);

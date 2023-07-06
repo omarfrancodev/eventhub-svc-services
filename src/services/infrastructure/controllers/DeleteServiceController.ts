@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import { DeleteServiceUseCase } from '../../application/DeleteServiceUseCase';
 import { FindByIdServiceUseCase } from '../../application/FindByIdServiceUseCase';
 import * as fs from 'fs';
-import saveErrorToLogFile from '../LogsErrorControl';
+import saveLogFile from '../LogsErrorControl';
 
 export class DeleteServiceController {
     constructor(private readonly deleteServiceUseCase: DeleteServiceUseCase,
@@ -30,12 +30,7 @@ export class DeleteServiceController {
             return res.status(200).json({ message: 'Service deleted successfully' });
         } catch (error: any) {
             console.error(error);
-            const stackLines = error.stack.split("\n");
-            let errorLine = '';
-            for (const line of stackLines) {
-                errorLine += line + "\n";
-            }
-            saveErrorToLogFile(error, errorLine);
+            saveLogFile(error);
             return res.status(500).json({ error: 'Internal server error' });
         }
     }
