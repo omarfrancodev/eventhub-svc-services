@@ -35,6 +35,9 @@ npm run test
   npm run start
   ```
 
+## Carpetas
+Deben crearse dos carpetas en la direccion `/src` con los nombres `images-providers` y `logs`.
+
 ### Instalación
 
 1. Clona este repositorio.
