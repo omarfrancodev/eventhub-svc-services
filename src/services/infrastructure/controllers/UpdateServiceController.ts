@@ -20,17 +20,38 @@ export class UpdateServiceController {
             const images: Express.MulterS3.File[] = req.files as Express.MulterS3.File[];
             let urlImages: string[] = [];
             let tags: string[] = [];
+            let imagesToKeep: string[] = [];
 
             const existingService = await this.findByIdServiceUseCase.run(serviceId);
 
             if (!existingService) {
                 return res.status(404).json({ error: "Service not found" });
             }
+
+            const existingImages = existingService.urlImages;
+            if (updatedServiceData.urlImages !== undefined && updatedServiceData.urlImages.length > 0) { imagesToKeep = updatedServiceData.urlImages.split(','); }
+    
+            const imagesToRemove = existingImages.filter(
+                (existingImage: string) => !imagesToKeep.includes(existingImage)
+            );
+            urlImages = urlImages.concat(imagesToKeep);
+    
+            const unlinkPromises = imagesToRemove.map(async image => {
+                const imagePath = `src/${image}`;
+                try {
+                    await fs.promises.unlink(imagePath);
+                    console.log(`Imagen ${image} eliminada correctamente`);
+                } catch (err: any) {
+                    console.error(`Error al eliminar la imagen ${image}: ${err}`);
+                    saveLogFile(err);
+                }
+            });
+            await Promise.all(unlinkPromises);
+
             if (images.length > 0) {
                 urlImages = await this.manageImages(images, urlImages, existingService, updatedServiceData);
-            } else {
-                urlImages.push(...existingService.urlImages);
             }
+
             if (updatedServiceData.tags !== undefined) {
                 if (updatedServiceData.tags.length > 0) {
                     tags = updatedServiceData.tags.split('|');
@@ -59,7 +80,6 @@ export class UpdateServiceController {
     }
 
     private async manageImages(images: Express.MulterS3.File[], urlImages: string[], existingService: Service, updatedServiceData: any) {
-        let imagesToKeep: string[] = [];
         const renamePromises = images.map(image => {
             const filename = `src/images-services/${image.filename}`;
             const imagePath = `${filename.substring(filename.indexOf('/'))}`;
@@ -67,27 +87,6 @@ export class UpdateServiceController {
             return fs.promises.rename(image.path, filename);
         });
         await Promise.all(renamePromises);
-
-        const existingImages = existingService.urlImages;
-        if (updatedServiceData.urlImages.length > 0) { imagesToKeep = updatedServiceData.urlImages.split(','); }
-
-        const imagesToRemove = existingImages.filter(
-            (existingImage: string) => !imagesToKeep.includes(existingImage)
-        );
-        urlImages = urlImages.concat(imagesToKeep);
-
-        const unlinkPromises = imagesToRemove.map(async image => {
-            const imagePath = `src/${image}`;
-            try {
-                await fs.promises.unlink(imagePath);
-                console.log(`Imagen ${image} eliminada correctamente`);
-            } catch (err: any) {
-                console.error(`Error al eliminar la imagen ${image}: ${err}`);
-                saveLogFile(err);
-            }
-        });
-        await Promise.all(unlinkPromises);
-
         return urlImages;
     }
 }
