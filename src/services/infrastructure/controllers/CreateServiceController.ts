@@ -40,6 +40,7 @@ export class CreateServiceController {
         service.providerId = parseInt(serviceData.providerId);
         service.name = serviceData.name;
         service.description = serviceData.description;
+        service.lowerDescription = serviceData.description.toLowerCase();
         service.tags = serviceData.tags;
         service.urlImages = urlImages;
 

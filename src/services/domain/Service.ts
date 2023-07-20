@@ -14,6 +14,9 @@ export class Service extends BaseEntity {
     @Column()
     description!: string;
 
+    @Column()
+    lowerDescription!: string;
+
     @Column('varchar', {array: true, nullable: true})
     tags!: string[] | null;
 
