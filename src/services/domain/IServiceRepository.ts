@@ -7,4 +7,5 @@ export interface IServiceRepository {
   findById(serviceId: number): Promise<Service | null>;
   findAll(): Promise<Service[]>;
   findByProviderId(providerId: number): Promise<Service[]>;
+  findByContent(content: string): Promise<Service[]>;
 }

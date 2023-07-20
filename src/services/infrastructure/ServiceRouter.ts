@@ -8,6 +8,7 @@ import {
   findAllServiceController,
   findByIdServiceController,
   findByProviderIdController,
+  findByContentServiceController,
 } from './dependencies';
 import path from 'path';
 
@@ -32,3 +33,4 @@ serviceRouter.patch('/:id', upload.array("images"), updateServiceController.run.
 serviceRouter.get('/', findAllServiceController.run.bind(findAllServiceController));
 serviceRouter.get('/:id', findByIdServiceController.run.bind(findByIdServiceController));
 serviceRouter.get('/provider/:id', findByProviderIdController.run.bind(findByProviderIdController));
+serviceRouter.post('/content/', findByContentServiceController.run.bind(findByContentServiceController));

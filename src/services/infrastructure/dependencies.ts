@@ -4,6 +4,7 @@ import { FindAllServiceUseCase } from "../application/FindAllServiceUseCase";
 import { FindByIdServiceUseCase } from "../application/FindByIdServiceUseCase";
 import { UpdateServiceUseCase } from "../application/UpdateServiceUseCase";
 import { FindByProviderIdUseCase } from "../application/FindByProviderIdUseCase";
+import { FindByContentServiceUseCase } from "../application/FindByContentServiceUseCase";
 
 import { CreateServiceController } from "./controllers/CreateServiceController";
 import { DeleteServiceController } from "./controllers/DeleteServiceController";
@@ -11,6 +12,7 @@ import { FindAllServiceController } from "./controllers/FindAllServiceController
 import { FindByIdServiceController } from "./controllers/FindByIdServiceController";
 import { UpdateServiceController } from "./controllers/UpdateServiceController";
 import { FindByProviderIdController } from "./controllers/FindByProviderIdController";
+import { FindByContentServiceController } from "./controllers/FindByContentServiceController";
 
 import { ServiceRepository } from "./implementation/ServiceRepository";
 
@@ -33,4 +35,8 @@ export const updateServiceController = new UpdateServiceController(updateService
 
 const findByProviderIdUseCase = new FindByProviderIdUseCase(serviceRepository);
 export const findByProviderIdController = new FindByProviderIdController(findByProviderIdUseCase);
+
+const findByContentServiceUseCase = new FindByContentServiceUseCase(serviceRepository);
+export const findByContentServiceController = new FindByContentServiceController(findByContentServiceUseCase);
+
 
